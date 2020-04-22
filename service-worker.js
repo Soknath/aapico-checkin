@@ -1,4 +1,4 @@
-importScripts("/aapico-checkin/precache-manifest.da75427378ec811ce1be5ffd24a71467.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/aapico-checkin/precache-manifest.419dd93560cf87a6f77f47bde8d5cc24.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 console.log("Worker is working")
 
