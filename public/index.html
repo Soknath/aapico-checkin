@@ -40,8 +40,8 @@
     <style>
       #snackbar {
         visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
+        width: '100%';
+        /* margin-left: -125px; */
         background-color: #333;
         color: #fff;
         text-align: center;
@@ -49,8 +49,8 @@
         padding: 16px;
         position: fixed;
         z-index: 1;
-        left: 50%;
-        bottom: 30px;
+        /* left: 50%; */
+        bottom: 50%;
       }
   
       #snackbar.show {
@@ -65,7 +65,7 @@
           opacity: 0;
         }
         to {
-          bottom: 30px;
+          bottom: '50%';
           opacity: 1;
         }
       }
@@ -76,9 +76,30 @@
           opacity: 0;
         }
         to {
-          bottom: 30px;
+          bottom: '50%';
           opacity: 1;
         }
+      }
+      #reload {
+        color: blue;
+        font-weight: bold;
+        background-color: transparent;
+        text-decoration: none;
+      }
+      #reload:visited {
+        color: pink;
+        background-color: transparent;
+        text-decoration: none;
+      }
+      #reload:hover {
+        color: red;
+        background-color: transparent;
+        text-decoration: underline;
+      }
+      #reload:active {
+        color: yellow;
+        background-color: transparent;
+        text-decoration: underline;
       }
     </style>
   </head>
@@ -86,7 +107,7 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
     </div>  
-    <div id="snackbar">A new version of this app is available. Click <a id="reload">here</a> to update.</div>
+    <div id="snackbar">A new version of this app is available. <br />Click <a id="reload"><b>HERE</b></a> to update.</div>
 </body>
 
 <script>
@@ -105,7 +126,7 @@
 
   if ('serviceWorker' in navigator) {
 
-    navigator.serviceWorker.register('/service-worker.js').then(reg => {
+    navigator.serviceWorker.register('/aapico-checkin/service-worker.js').then(reg => {
       reg.addEventListener('updatefound', () => {
         // A wild service worker has appeared in reg.installing!
         newWorker = reg.installing;

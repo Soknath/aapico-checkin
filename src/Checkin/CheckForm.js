@@ -4,10 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles, useTheme } from '@material-ui/core/styles';
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import MapGL, {FlyToInterpolator, NavigationControl, GeolocateControl } from 'react-map-gl';
-import Card from '@material-ui/core/Card';
+import MapGL, {FlyToInterpolator, NavigationControl, GeolocateControl, Popup, Marker } from 'react-map-gl';
 import Motion from '../motion';
 import AppBar from '../appBar';
 import history from '../history';
@@ -15,6 +13,8 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import Snackbar from '@material-ui/core/Snackbar';
 import Drawer from './Drawer';
 import Today from "./Today";
+import PopInfo from './Popup';
+import Pin from './Pin';
 
 const styles = theme => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -79,8 +79,7 @@ class CheckForm extends React.Component {
     super(props);
     this.state = {
       language: 'en',
-      companyName: null,
-      data: props.data,
+      location: null,
       viewport: {
         latitude: 14,
         longitude: 100,
@@ -104,19 +103,6 @@ class CheckForm extends React.Component {
     this.setState({viewport: etc})
   }
 
-  _goToViewport = (company) => {
-    this.setState({popupInfo: company});
-    this.setState({
-      viewport: {...this.state.viewport, 
-        latitude: parseFloat(company.lat_lng.split(',')[0]),
-        longitude: parseFloat(company.lat_lng.split(',')[1]),
-        zoom: 12,
-        transitionInterpolator: new FlyToInterpolator({speed: 2}),
-        transitionDuration: 'auto'
-      }
-    });
-  };
-
   _updateViewport = (viewport) => {
     viewport.zoom=14 //Whatever zoom level you want
     this.setState({ viewport })
@@ -127,13 +113,49 @@ class CheckForm extends React.Component {
       openDrawer: !this.state.openDrawer
     })
   }
+
+  drawerClick = (company) => {
+    console.log(company.latitude);
+      this.setState({popupInfo: company});
+      this.setState({
+        location: [ parseFloat(company.latitude), parseFloat(company.longitude)],
+        viewport: {...this.state.viewport, 
+          latitude: parseFloat(company.latitude),
+          longitude:  parseFloat(company.longitude),
+          zoom: 12,
+          transitionInterpolator: new FlyToInterpolator({speed: 2}),
+          transitionDuration: 'auto'
+        }
+      });
+  }
+  
+  _renderPopup() {
+    const {popupInfo} = this.state;
+    console.log(popupInfo);
+    return (
+      popupInfo && (
+        <Popup
+          tipSize={5}
+          anchor="bottom"
+          latitude={parseFloat(popupInfo.latitude)}
+          longitude={parseFloat(popupInfo.longitude)}
+          closeOnClick={false}
+          closeButton={true}
+          onClose={() => this.setState({popupInfo: null, location: null})}
+        >
+          <PopInfo info={popupInfo} />
+        </Popup>
+      )
+    );
+  }
+
   render() {
-    const {viewport, settings, openDrawer} = this.state;
+    const {viewport, openDrawer} = this.state;
     const {classes} = this.props;
     let user = localStorage.getItem('user');
     return (
       <Motion>
-      {openDrawer?<Drawer drawerClose={() => this.openDrawer()}/>:null}
+      {openDrawer?<Drawer drawerClose={() => this.openDrawer()} callBack={(address) => this.drawerClick(address)}/>:null}
       <AppBar info={true} history={true} drawerOpen={() => this.openDrawer()} title={"CHECK IN"}/><div className={classes.appBarSpacer}/>
       <div>
         <MapGL
@@ -163,6 +185,17 @@ class CheckForm extends React.Component {
         <div style={navStyle}>
           <NavigationControl showCompass={false}/>
         </div>
+        {this.state.location?
+          <Marker
+            longitude={this.state.location[1]}
+            latitude={this.state.location[0]}
+            offsetTop={-20}
+            offsetLeft={-10}
+          >
+            <Pin size={20} />
+          </Marker>:null}
+        {/* <Pins longitude={this.props.longitude} latitude={this.props.latitude} /> */}
+        {this._renderPopup()}
         </MapGL>
           
         <div style={navRightStyle}>

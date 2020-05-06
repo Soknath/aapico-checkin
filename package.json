@@ -41,7 +41,9 @@
     "react-transition-group": "^4.3.0",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
+    "supercluster": "^7.0.0",
     "tabletop": "^1.6.2",
+    "use-supercluster": "^0.2.8",
     "webrtc-adapter": "^7.5.1",
     "yup": "^0.28.3"
   },
@@ -50,9 +52,9 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "deploy": "npm run build && gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build --remote origin"
   },
-  "homepage": "https://soknath.github.com/",
+  "homepage": "https://soknath.github.com/aapico-checkin",
   "eslintConfig": {
     "extends": "react-app"
   },

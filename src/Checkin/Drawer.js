@@ -79,7 +79,7 @@ export default function SwipeableTemporaryDrawer(props) {
       <List>
         {data?data.map((text, index) => (
           <>
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={()=> props.callBack(text)}>
             <ListItemAvatar>
               <Avatar alt={text.firstName} src={API_URL+text.avatar.url} />
             </ListItemAvatar>

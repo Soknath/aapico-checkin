@@ -1,5 +1,5 @@
 console.log("Worker is working")
-var cacheName = 'firstVersion';
+var cacheName = 'SecondVersion';
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [])
 

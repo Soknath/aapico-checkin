@@ -89,7 +89,7 @@ function MediaCard(props) {
     useEffect( () => {
         async function fetchData() {
             try {
-                let address = await fetch(`http://search.map.powermap.in.th/api/v2/map/reverse_geocode?lat=${state.latitude}&lng=${state.longitude}&sort=d&&access_token=b378c575291af30a29f59919fd7e7e4c012d45c4`).then(res => res.json());
+                let address = await fetch(`https://search.map.powermap.in.th/api/v2/map/reverse_geocode?lat=${state.latitude}&lng=${state.longitude}&sort=d&&access_token=b378c575291af30a29f59919fd7e7e4c012d45c4`).then(res => res.json());
                 console.log(address);
                 setUserAddress(`${address.data[0].tambon_e}, ${address.data[0].amphoe_e}, ${address.data[0].province_e},  ${address.data[0].postcode}`);
             } catch (error) {
