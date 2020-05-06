@@ -1,3 +1,5 @@
+console.log("Worker is working")
+var cacheName = 'eightVersion';
 
 let notificationUrl = '';
 self.addEventListener('push', function (event) {
