@@ -24,6 +24,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {API_URL} from '../constants';
 import Loading from '../Loading';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile
+  } from "react-device-detect";
+import WebCam from './Webcam';
 
 const healths = ["healthy", "Sick (fever or cough or cold)", "Sick Covid-19"];
 const styles = theme => ({
@@ -70,6 +77,7 @@ function MediaCard(props) {
     const [loading, setLoading] = React.useState(false);
     const fileRef = React.useRef(null);
     const [health, setHealth] = React.useState("healthy");
+    const [webCam, setWebcam] = React.useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -225,9 +233,21 @@ function MediaCard(props) {
             }
         }
     }
+    const getImage= (image) => {
+        setWebcam(false);
+        let blob = dataURItoBlob(image);
+        let file = new File( [blob], 'selfie.jpg', { type: 'image/jpeg' } )
+        resize(file, 1200, 1200, async function (resizedDataUrl) {
+            let blob = dataURItoBlob(resizedDataUrl);
+            let fileResize = new File( [blob], 'selfie.jpg', { type: 'image/jpeg' } )
+            setFile(fileResize);
+        });
+        setFile(file);
+        console.log(image);
+    }
 
-  if (loading) {return(<Loading />)} 
-  else {
+    if (loading) return <Loading />
+    if (webCam) return <WebCam imageCallback={getImage}/>
     return (
         <>
             <AppBar back={true} title={"Submit Checkin Data"}/>
@@ -239,19 +259,23 @@ function MediaCard(props) {
             >
             <Card className={classes.root}>
             <CardActionArea>
-                <div onClick={() => fileRef.current.click()} >
+                <div onClick={() => {
+                    if (isMobile) return fileRef.current.click();
+                    return setWebcam(true);
+                }}
+                >
                 <CardMedia
                     component="img"
                     className={classes.media}
                     image={file?URL.createObjectURL(file):"/aapico-checkin/images/placeholder.png"}
                     title="Profile"
                 /></div>
-                <input type="file" ref={fileRef} className={classes.file} accept="image/x-png,image/jpeg,image/gif,image/png" 
+                <input type="file" ref={fileRef} className={classes.file} accept="image/*" 
                     style={{visibility: 'hidden'}}
                     onChange={(event)=> { 
                         getPhoto(event) 
                     }}
-                    capture
+                    capture="user"
                 />
                 <Divider />
                 <CardContent>
@@ -315,8 +339,8 @@ function MediaCard(props) {
             
             </Grid>
         </>
-    )};          
-}
+    );
+}          
 
 
 export default withStyles(styles)(MediaCard);
