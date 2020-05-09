@@ -58,7 +58,8 @@ const styles = theme => ({
   container: {
       padding: theme.spacing.unit * 2,
       maxWidth: 400,
-      marginTop: 50
+      marginTop: 50,
+      margin: 'auto'
   }
 });
 
