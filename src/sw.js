@@ -1,5 +1,5 @@
 console.log("Worker is working")
-var cacheName = 'ThirdVersion';
+var cacheName = 'FifthVersion';
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [])
 

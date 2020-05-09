@@ -28,7 +28,8 @@ import {
     BrowserView,
     MobileView,
     isBrowser,
-    isMobile
+    isMobile,
+    deviceDetect
   } from "react-device-detect";
 import WebCam from './Webcam';
 
@@ -207,7 +208,8 @@ function MediaCard(props) {
                 "address": userAddress,
                 "department": user.department,
                 "company": user.company,
-                "healthStatus": health
+                "healthStatus": health,
+                "device": deviceDetect()
             }));
             const rawResponse = await fetch(`${API_URL}/staff-locations`,{
                 method: 'POST',

@@ -38,16 +38,12 @@ export default function DenseAppBar(props) {
     props.onSelectMap(mapView);  
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleClickBack = () => {
-    if(props.index){
-      return history.push({pathname: '/employees', state: {index: props.index, filterCompany: props.filterCompany}});
-    } else {
-      history.goBack();
-    }
+      history.push("/checkin");
   }
 
   const handleClose = value => {
