@@ -1,5 +1,5 @@
 console.log("Worker is working")
-var cacheName = 'nightVersion';
+var cacheName = 'tenVersion';
 
 let notificationUrl = '';
 self.addEventListener('push', function (event) {
